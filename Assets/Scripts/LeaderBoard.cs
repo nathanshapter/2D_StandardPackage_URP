@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using LootLocker.Requests;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class LeaderBoard : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class LeaderBoard : MonoBehaviour
   [SerializeField]  int leaderBoardID = 15659; // change this if it is 15159
 
     public TextMeshProUGUI playerNames, playerScores;
+
+    string playerID;
 
 
     private void Awake()
@@ -26,7 +30,7 @@ public class LeaderBoard : MonoBehaviour
     public IEnumerator SubmitScoreRoutine(int scoreToUpload)
     {
         bool done = false;
-        string playerID = PlayerPrefs.GetString("PlayerID");
+       playerID  = PlayerPrefs.GetString("PlayerID");
         LootLockerSDKManager.SubmitScore(playerID, scoreToUpload, leaderBoardID, (response) =>
         {
             if (response.success)
@@ -41,11 +45,12 @@ public class LeaderBoard : MonoBehaviour
             }
         });
         yield return new WaitWhile(() => done == false);
-
+     
     }
 
     public IEnumerator FetchTopHighScoresRoutine()
     {
+      
         bool done = false;
         LootLockerSDKManager.GetScoreListMain(leaderBoardID, 15, 0, (response) =>
         {
@@ -69,8 +74,8 @@ public class LeaderBoard : MonoBehaviour
                     tempPlayerScores += "\n";
                 }
                 done = true;
-                playerNames.text = tempPlayerNames;
-                playerScores.text = tempPlayerScores;
+                playerNames.text = tempPlayerNames + "\n\n";
+                playerScores.text = tempPlayerScores + "\n\n";
             }
             else
             {
@@ -78,6 +83,8 @@ public class LeaderBoard : MonoBehaviour
                 done = true;
             }
         });
+
+     
         yield return new WaitWhile(() => done == false);
     }
 }

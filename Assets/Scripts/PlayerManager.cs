@@ -36,6 +36,8 @@ public class PlayerManager : MonoBehaviour
                 Debug.Log("could not set player name " + response.Error);
             }
         });
+
+
     }
     IEnumerator LoginRoutine()
     {
