@@ -28,6 +28,7 @@ public class MainMenuCanvas : MonoBehaviour
     {
         DisableUI();
         TurnOnStartMenu();
+        
     }
     public void TurnOnChangeLog()
     {
