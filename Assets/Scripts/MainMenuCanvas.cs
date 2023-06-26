@@ -3,23 +3,41 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuCanvas : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI play, settings;
-
-
+    [SerializeField] bool hasLevelSelect;
     [SerializeField] TextMeshProUGUI level1, level2, level3, level4, level5, level6;
 
 
+    [SerializeField] TextMeshProUGUI play, settings;
 
 
+
+
+
+
+    [SerializeField] TextMeshProUGUI titleText;
     [SerializeField] GameObject[] allUI;
+    [SerializeField] GameObject[] startUI;
     [SerializeField] GameObject[] levelSelectUI;
 
+    private void Start()
+    {
+        DisableUI();
+        TurnOnStartMenu();
+    }
 
-
-    [SerializeField] bool hasLevelSelect;
+    void TurnOnStartMenu()
+    {
+        DisableUI();
+        foreach (var item in startUI)
+        {
+            item.SetActive(true);
+        }
+        titleText.text = "Main Menu";
+    }
 
     void DisableUI()
     {
@@ -39,18 +57,24 @@ public class MainMenuCanvas : MonoBehaviour
         }
         else
         {
-
+            OpenLevelSelect();
         }
     }
 
 
- public   void OpenLevelSelect()
+   void OpenLevelSelect()
     {
-        DisableUI();
+       
         foreach (var item in levelSelectUI)
         {
             item.SetActive(true);
         }
+    }
+
+    public void BackButton()
+    {
+        DisableUI();
+        TurnOnStartMenu();
     }
 
 }
