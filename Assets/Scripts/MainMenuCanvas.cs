@@ -8,9 +8,9 @@ using UnityEngine.UI;
 public class MainMenuCanvas : MonoBehaviour
 {
     [SerializeField] bool hasLevelSelect;
- 
 
 
+    [SerializeField] GameObject changeLogButton;
 
 
 
@@ -22,11 +22,21 @@ public class MainMenuCanvas : MonoBehaviour
     [SerializeField] GameObject[] settingsUI;
     [SerializeField] GameObject[] credits;
     [SerializeField] GameObject[] highscores;
+    [SerializeField] GameObject[] changeLog;
 
     private void Start()
     {
         DisableUI();
         TurnOnStartMenu();
+    }
+    public void TurnOnChangeLog()
+    {
+        DisableUI();
+        foreach (var item in changeLog)
+        {
+            item.SetActive(true);
+        }
+        titleText.text = "Changelog";
     }
     public void TurnOnHighScores()
     {
@@ -62,6 +72,7 @@ public class MainMenuCanvas : MonoBehaviour
         {
             item.SetActive(true);
         }
+        changeLogButton.SetActive(true);
         backButton.SetActive(false);
         titleText.text = "Main Menu";
     }
@@ -72,6 +83,7 @@ public class MainMenuCanvas : MonoBehaviour
         {
             item.SetActive(false);
         }
+        changeLogButton.SetActive(false);
         backButton.SetActive(true);
     }
 
