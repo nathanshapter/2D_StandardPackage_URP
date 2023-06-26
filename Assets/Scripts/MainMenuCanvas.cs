@@ -21,13 +21,22 @@ public class MainMenuCanvas : MonoBehaviour
     [SerializeField] GameObject backButton;
     [SerializeField] GameObject[] settingsUI;
     [SerializeField] GameObject[] credits;
+    [SerializeField] GameObject[] highscores;
 
     private void Start()
     {
         DisableUI();
         TurnOnStartMenu();
     }
-
+    public void TurnOnHighScores()
+    {
+        DisableUI();
+        foreach (var item in highscores)
+        {
+            item.SetActive(true);
+        }
+        titleText.text = "High Scores";
+    }
     public void TurnOnCreditsMenu()
     {
         DisableUI();
@@ -35,6 +44,7 @@ public class MainMenuCanvas : MonoBehaviour
         {
             item.SetActive(true);
         }
+        titleText.text = "Credits";
     }
     public void TurnOnSettingsMenu()
     {
@@ -43,7 +53,7 @@ public class MainMenuCanvas : MonoBehaviour
         {
             item.SetActive(true);
         }
-        titleText.text = "Settings UI";
+        titleText.text = "Settings";
     }
     void TurnOnStartMenu()
     {
