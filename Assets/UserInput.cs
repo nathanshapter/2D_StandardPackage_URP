@@ -46,7 +46,7 @@ public class UserInput : MonoBehaviour
         jumpAction = playerInput.actions["Jump"];
         attackAction = playerInput.actions["Attack"];
         dashAction = playerInput.actions["Dash"];
-        menuOpenCloseAction = playerInput.actions["MenuOpenClose"];
+     //   menuOpenCloseAction = playerInput.actions["MenuOpenClose"];
     }
     private void UpdateInputs()
     {
@@ -56,6 +56,6 @@ public class UserInput : MonoBehaviour
         jumpJustPressed = jumpAction.WasReleasedThisFrame();
         attackInput = attackAction.WasPressedThisFrame();
         dashInput = dashAction.WasPressedThisFrame();
-        menuOpenCloseInput = menuOpenCloseAction.WasPressedThisFrame();
+     //   menuOpenCloseInput = menuOpenCloseAction.WasPressedThisFrame();
     }
 }
