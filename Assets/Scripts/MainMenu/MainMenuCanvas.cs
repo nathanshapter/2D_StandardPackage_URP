@@ -24,6 +24,8 @@ public class MainMenuCanvas : MonoBehaviour
     [SerializeField] GameObject[] highscores;
     [SerializeField] GameObject[] changeLog;
 
+
+  
     private void Start()
     {
         DisableUI();
