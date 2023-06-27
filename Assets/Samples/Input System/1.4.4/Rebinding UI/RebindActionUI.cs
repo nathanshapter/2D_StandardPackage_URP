@@ -268,7 +268,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             action.Disable();
 
             // Configure the rebind.
-            m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
+            m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex).WithCancelingThrough("<Keyboard>/escape").WithControlsExcluding
+                ("<Mouse>").WithControlsExcluding("escape")
                 .OnCancel(
                     operation =>
                     {
@@ -284,6 +285,14 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         action.Enable();
                         m_RebindOverlay?.SetActive(false);
                         m_RebindStopEvent?.Invoke(this, operation);
+                        if(CheckDuplicateBinding(action, bindingIndex, allCompositeParts))
+                        {
+                            action.RemoveBindingOverride(bindingIndex);
+                            CleanUp();
+                            PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
+                            return;
+                        }
+
                         UpdateBindingDisplay();
                         CleanUp();
 
@@ -323,6 +332,35 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_RebindOperation.Start();
         }
 
+        private bool CheckDuplicateBinding(InputAction action, int bindingIndex, bool allCompositeParts = false)
+        {
+            InputBinding newBinding = action.bindings[bindingIndex];
+
+            foreach (InputBinding binding in action.actionMap.bindings)
+            {
+                if(binding.action == newBinding.action)
+                {
+                    continue;
+                }
+                if(binding.effectivePath == newBinding.effectivePath)
+                {
+                    Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                    return true;
+                }
+            }
+            if (allCompositeParts)
+            {
+                for (int i = 1; i < bindingIndex; i++)
+                {
+                    if (action.bindings[i].effectivePath == newBinding.overridePath)
+                    {
+                        Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         protected void OnEnable()
         {
             if (s_RebindActionUIs == null)
