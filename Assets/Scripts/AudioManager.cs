@@ -13,6 +13,9 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] AudioClip testClip;
 
+    [SerializeField] bool playSFX = true;
+    [SerializeField] UnityEngine.UI.Image redplaySFXImage;
+
     private void Awake()
     {
         if (instance == null)
@@ -23,6 +26,10 @@ public class AudioManager : MonoBehaviour
         else { Destroy(this.gameObject); }
     }
 
+    private void Start()
+    {
+        redplaySFXImage.gameObject.SetActive(false);
+    }
     public void PlaySound(AudioClip clip, bool loop = false)
     {
         if (loop)
@@ -57,12 +64,18 @@ public class AudioManager : MonoBehaviour
     public void EffectsVolume()
     {
         effectsSource.volume = effectsVolume.value;
-        if(!effectsSource.isPlaying)
+        if(!effectsSource.isPlaying && playSFX)
         {
             PlaySound(testClip, false);
         }
        
         
+    }
+
+    public void FlipPlaySFXButton()
+    {
+        playSFX = !playSFX;
+        redplaySFXImage.gameObject.SetActive(!playSFX);
     }
     
 }
